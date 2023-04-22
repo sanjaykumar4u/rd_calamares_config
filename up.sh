@@ -1,35 +1,33 @@
 #!/bin/bash
-#set -e
+
+set -e
 
 echo "Checking for newer files online first"
 git pull
 
-# Below command will backup everything inside the project folder
+# Backup everything inside the project folder
 git add --all .
 
-# Give a comment to the commit if you want
-echo "####################################"
-echo "Write your commit comment!"
-echo "####################################"
-
+# Prompt for commit message
+echo "Enter your commit message:"
 read input
 
-# Committing to the local repository with a message containing the time details and commit text
+# Commit to local repository with message containing time details and commit text
+timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+commit_msg="$timestamp: $input"
+git commit -m "$commit_msg"
 
-git commit -m "$input"
+# Prompt for branch name
+echo "Enter the branch name:"
+read branch_name
 
-# Push the local files to github
-
-if grep -q main .git/config; then
-	echo "Using main"
-		git push -u origin main
+# Push local files to Github
+if grep -q "$branch_name" .git/config; then
+	echo "Pushing changes to $branch_name branch"
+	git push -u origin "$branch_name"
+else
+	echo "ERROR: Branch $branch_name not found in remote repository"
+	exit 1
 fi
 
-if grep -q master .git/config; then
-	echo "Using master"
-		git push -u origin master
-fi
-
-echo "################################################################"
-echo "###################    Git Push Done      ######################"
-echo "################################################################"
+echo "Git push complete"
