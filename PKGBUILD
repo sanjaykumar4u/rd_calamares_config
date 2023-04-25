@@ -1,6 +1,6 @@
 # Maintainer: Raindeer-OS
 pkgname=rd_calamares_config
-_destname1="/etc"
+_destname1="/"
 pkgver=23.25
 pkgrel=1
 pkgdesc="Calamares Config for Raindeer-OS"
